@@ -55,6 +55,12 @@ public class ZooController {
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
+    //GET /animals/count -  that returns a JSON object list listing the animals and a count of how many zoos where they can be found.
+    @GetMapping(value = "/animals/count", produces = {"application/json"})
+    public ResponseEntity<?> getZooAndAnimalNum(){
+        return new ResponseEntity<>(zooService.getCountZooAnimals(), HttpStatus.OK);
+    }
+
 
 
 }

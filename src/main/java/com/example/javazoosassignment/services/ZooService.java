@@ -3,6 +3,7 @@ package com.example.javazoosassignment.services;
 import com.example.javazoosassignment.models.Telephone;
 import com.example.javazoosassignment.models.Zoo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ZooService {
@@ -13,6 +14,8 @@ public interface ZooService {
     List <Zoo> findZooByNameLike(String thename);
 
     Zoo save(Zoo zoo, Telephone telephone);
+
+    ArrayList<ZooCountAnimals> getCountZooAnimals;
 
 
 }
