@@ -48,7 +48,7 @@ public class ZooController {
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newZooURI = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{zooid}")
-                .buildAndExpand(newZoo.getZooid())
+                .buildAndExpand(newZoo.getzooid())
                 .toUri();
         responseHeaders.setLocation(newZooURI);
 
@@ -61,28 +61,28 @@ public class ZooController {
         return new ResponseEntity<>(zooService.getCountZooAnimals(), HttpStatus.OK);
     }*/
 
-    //localhost:2019/zoos/zoo/{id} -- PUT
+    //PUT localhost:2019/zoos/zoo/{id}
     @PutMapping(value = "/zoo/{zooid}", consumes = {"application/json"})
     public ResponseEntity<?> updateZoo(@RequestBody Zoo updateZoo, @PathVariable long zooid) {
         zooService.update(updateZoo, zooid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //localhost:2019/zoos/zoo/{id} -- DELETE
+    //DELETE localhost:2019/zoos/zoo/{id}
     @DeleteMapping(value = "/zoo/{zooid}")
     public ResponseEntity<?> deleteZooById(@PathVariable long zooid) {
         zooService.delete(zooid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //localhost:2019/zoos/zoo/{zooid}/animals/{animalid} -- DELETE
+    // DELETE localhost:2019/zoos/zoo/{zooid}/animals/{animalid}
     @DeleteMapping(value = "/zoo/{zooid}/animals/{animalid}")
     public ResponseEntity<?> deleteZooAnimalByIds(@PathVariable long zooid, @PathVariable long animalid) {
         zooService.deleteZooAnimal(zooid, animalid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //localhost:2019/zoos/zoo/{zooid}/animals/{animalid} -- POST
+    //POST localhost:2019/zoos/zoo/{zooid}/animals/{animalid}
     @PostMapping(value = "/zoo/{zooid}/animals/{animalid}")
     public ResponseEntity postZooAnimalByIds(@PathVariable long zooid, @PathVariable long animalid) {
         zooService.addZooAnimal(zooid, animalid);

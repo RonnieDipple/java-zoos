@@ -11,7 +11,7 @@ public interface TelephoneService {
 
     Telephone findTelephoneById(long id);
 
-    List<Telephone> findByZooId(long id);
+    List<Telephone> findbyzooid(long id);
 
     void delete(long id);
 

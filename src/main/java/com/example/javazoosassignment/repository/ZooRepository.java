@@ -24,7 +24,7 @@ public interface ZooRepository extends CrudRepository<Zoo, Long> {
     /* String getZooName();
     int getCountAnimals();*/
 
-    List<Zoo> findByZooNameContaining(String zooname);
+    List<Zoo> findByzoonameContaining(String zooname);
 
-    Zoo findByZooName(String zooname);
+    Zoo findByzooname(String zooname);
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TelephoneRepository extends CrudRepository<Telephone, Long> {
 
-    List<Telephone> findAllByZooid(long id);
+    List<Telephone> findAllByZooZooid(long id);
 }

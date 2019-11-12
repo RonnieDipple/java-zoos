@@ -28,12 +28,12 @@ public class TelephoneServiceImpl implements TelephoneService {
 
     @Override
     public Telephone findTelephoneById(long id) {
-        return telephoneRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no"));
+        return telephoneRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no findTelephoneById"));
     }
 
     @Override
-    public List<Telephone> findByZooId(long id) {
-        return telephoneRepository.findAllByZooid(id);
+    public List<Telephone> findbyzooid(long id) {
+        return telephoneRepository.findAllByZooZooid(id);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class TelephoneServiceImpl implements TelephoneService {
         if (telephoneRepository.findById(id).isPresent()) {
             telephoneRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("no thanks");
+            throw new EntityNotFoundException("no delete");
         }
     }
 
@@ -52,7 +52,7 @@ public class TelephoneServiceImpl implements TelephoneService {
             telephone.setPhonenumber(phonenumber);
             return telephoneRepository.save(telephone);
         } else {
-            throw new EntityNotFoundException("No thanks");
+            throw new EntityNotFoundException("No update");
         }
     }
 

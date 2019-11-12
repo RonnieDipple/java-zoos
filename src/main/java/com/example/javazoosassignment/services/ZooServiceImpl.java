@@ -35,29 +35,29 @@ public class ZooServiceImpl implements ZooService {
 
     @Override
     public List<Zoo> findByNameContaining(String zooname) {
-        return zooRepository.findByZooNameContaining(zooname);
+        return zooRepository.findByzoonameContaining(zooname);
     }
 
     @Override
     public Zoo findZooById(long id) {
-        return zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("not today"));
+        return zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("not found"));
     }
 
     @Transactional
     @Override
     public void delete(long id) {
-        zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("stop it"));
+        zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("delete error"));
         zooRepository.deleteById(id);
     }
 
     @Transactional
     @Override
     public Zoo save(Zoo zoo) {
-        if (zooRepository.findByZooName(zoo.getZooname()) != null) {
-            throw new EntityNotFoundException(zoo.getZooname() + " already exists");
+        if (zooRepository.findByzooname(zoo.getzooname()) != null) {
+            throw new EntityNotFoundException(zoo.getzooname() + " already exists");
         }
         Zoo newZoo = new Zoo();
-        newZoo.setZooname(zoo.getZooname());
+        newZoo.setzooname(zoo.getzooname());
 
         for( Telephone t : zoo.getTelephones()) {
             newZoo.getTelephones().add(new Telephone(t.getPhonetype(), t.getPhonenumber(), newZoo));
@@ -70,8 +70,8 @@ public class ZooServiceImpl implements ZooService {
     @Override
     public Zoo update(Zoo zoo, long id) {
         Zoo newZoo = findZooById(id);
-        if (zoo.getZooname() != null) {
-            newZoo.setZooname(zoo.getZooname());
+        if (zoo.getzooname() != null) {
+            newZoo.setzooname(zoo.getzooname());
         }
 
         if (zoo.getTelephones() != null) {
@@ -91,7 +91,7 @@ public class ZooServiceImpl implements ZooService {
 
         if (animalRepository.getBothZooAnimal(zooid, animalid).getCount() > 0) {
             animalRepository.deleteZooAnimals(zooid, animalid);
-        } else throw new EntityNotFoundException("Zoo Animal Combo does not exist");
+        } else throw new EntityNotFoundException("Zoo and Animal does not exist");
 
     }
 
@@ -102,7 +102,7 @@ public class ZooServiceImpl implements ZooService {
 
         if (animalRepository.getBothZooAnimal(zooid, animalid).getCount() <= 0) {
             animalRepository.insertZooAndAnimal(zooid, animalid);
-        } else throw new EntityNotFoundException("Zoo animal combo already exists");
+        } else throw new EntityNotFoundException("Zoo and animal already exists");
     }
 
     @Override

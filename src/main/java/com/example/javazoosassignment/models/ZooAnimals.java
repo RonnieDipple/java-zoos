@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "zooanimals", uniqueConstraints = {@UniqueConstraint(columnNames = {"zooid", "animalid"})})
+@Table(name = "zooanimals")
 public class ZooAnimals extends Auditable implements Serializable {
 
     @Id

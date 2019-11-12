@@ -34,13 +34,13 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal findAnimalById(long id) {
-        return animalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no sir"));
+        return animalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no findAnimalById"));
     }
 
     @Transactional
     @Override
     public void delete(long id) {
-        animalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no sir"));
+        animalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no delete"));
         animalRepository.deleteById(id);
     }
 
@@ -48,15 +48,15 @@ public class AnimalServiceImpl implements AnimalService {
     public Animal save(Animal animal) {
         Animal newAnimal = new Animal();
         newAnimal.setAnimaltype(animal.getAnimaltype());
-        if (animal.getZooanimals().size() > 0) throw new EntityNotFoundException("ZooAnimals not created through animal");
+        if (animal.getZooanimals().size() > 0) throw new EntityNotFoundException("ZooAnimals not created  animal");
         return animalRepository.save(animal);
     }
 
     @Override
     public Animal update(long id, Animal animal) {
 
-        if (animal.getAnimaltype() == null) throw new EntityNotFoundException("No animal type to update");
-        if (animal.getZooanimals().size() > 0) throw new EntityNotFoundException("Zooanimals not updated through animal");
+        if (animal.getAnimaltype() == null) throw new EntityNotFoundException("No animal type cannot update");
+        if (animal.getZooanimals().size() > 0) throw new EntityNotFoundException("Zooanimals not updated  animal");
 
         if (animalRepository.findById(id) != null) {
             animalRepository.updateAnimalType(id, animal.getAnimaltype());

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "animals", uniqueConstraints = {@UniqueConstraint(columnNames = {"animalid", "zooid"})})
+@Table(name = "animals")
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

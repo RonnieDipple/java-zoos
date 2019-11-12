@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "zoos", uniqueConstraints = {@UniqueConstraint(columnNames = {"zooid", "phonenumber", "animalid"})})
+@Table(name = "zoos")
 public class Zoo {
 
     @Id
@@ -34,19 +34,19 @@ public class Zoo {
         this.zooanimals = zooanimals;
     }
 
-    public long getZooid() {
+    public long getzooid() {
         return zooid;
     }
 
-    public void setZooid(long zooid) {
+    public void setzooid(long zooid) {
         this.zooid = zooid;
     }
 
-    public String getZooname() {
+    public String getzooname() {
         return zooname;
     }
 
-    public void setZooname(String zooname) {
+    public void setzooname(String zooname) {
         this.zooname = zooname;
     }
 
