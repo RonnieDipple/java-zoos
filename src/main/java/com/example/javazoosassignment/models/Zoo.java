@@ -14,26 +14,24 @@ public class Zoo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long zooid;
 
-    @Column(nullable = false,
-            unique = true)
     private String zooname;
 
-    @OneToMany(mappedBy = "zoos",
-            cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("zoos")
-    private List<Telephone> telephonesArrayList = new ArrayList<>();
+    @OneToMany(mappedBy = "zoo", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "zoo", allowSetters = true)
+    private List<ZooAnimals> zooanimals = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "zoos",
-            cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("zoos")
-    private List<Animal> animalsArrayList = new ArrayList<>();
+    @OneToMany(mappedBy = "zoo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = "zoo", allowSetters = true)
+    private List<Telephone> telephones = new ArrayList<>();
 
-    public Zoo(){}
+    public Zoo() {}
 
-    public Zoo(String zooname, List<Telephone> telephonesArrayList, List<Animal> animalsArrayList) {
+    public Zoo(String zooname, List<ZooAnimals> zooanimals) {
         this.zooname = zooname;
-        this.telephonesArrayList = telephonesArrayList;
-        this.animalsArrayList = animalsArrayList;
+        for (ZooAnimals zr : zooanimals) {
+            zr.setZoo(this);
+        }
+        this.zooanimals = zooanimals;
     }
 
     public long getZooid() {
@@ -52,19 +50,19 @@ public class Zoo {
         this.zooname = zooname;
     }
 
-    public List<Telephone> getTelephonesArrayList() {
-        return telephonesArrayList;
+    public List<ZooAnimals> getZooanimals() {
+        return zooanimals;
     }
 
-    public void setTelephonesArrayList(List<Telephone> telephonesArrayList) {
-        this.telephonesArrayList = telephonesArrayList;
+    public void setZooanimals(List<ZooAnimals> zooanimals) {
+        this.zooanimals = zooanimals;
     }
 
-    public List<Animal> getAnimalsArrayList() {
-        return animalsArrayList;
+    public List<Telephone> getTelephones() {
+        return telephones;
     }
 
-    public void setAnimalsArrayList(List<Animal> animalsArrayList) {
-        this.animalsArrayList = animalsArrayList;
+    public void setTelephones(List<Telephone> telephones) {
+        this.telephones = telephones;
     }
 }

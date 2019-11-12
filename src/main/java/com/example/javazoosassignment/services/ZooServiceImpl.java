@@ -2,51 +2,111 @@ package com.example.javazoosassignment.services;
 
 import com.example.javazoosassignment.models.Telephone;
 import com.example.javazoosassignment.models.Zoo;
+import com.example.javazoosassignment.repository.AnimalRepository;
 import com.example.javazoosassignment.repository.ZooRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.javazoosassignment.views.ZooCountTelephones;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service(value = "zooService")
+@Service
+@Qualifier("zooService")
 public class ZooServiceImpl implements ZooService {
 
-    @Autowired
-    private ZooRepository zoorepos;
+    private ZooRepository zooRepository;
+    private AnimalRepository animalRepository;
 
-
-    @Override
-    public List<Zoo> findAllZoos() {
-
-            List<Zoo> list = new ArrayList<>();
-            zoorepos.findAll()
-                    .iterator()
-                    .forEachRemaining(list::add);
-            return list;
-
+    public ZooServiceImpl(ZooRepository zooRepository, AnimalRepository animalRepository) {
+        this.zooRepository = zooRepository;
+        this.animalRepository = animalRepository;
     }
 
     @Override
-    public Zoo findZooById(long id) throws EntityNotFoundException {
+    public List<Zoo> findAll() {
 
-        return zoorepos.findById(id).orElseThrow(() -> new EntityNotFoundException("Zoo id" + id + "not found!"));
+        List<Zoo> list = new ArrayList<>();
+        zooRepository.findAll().iterator().forEachRemaining(list::add);
+        return list;
     }
 
     @Override
-    public List<Zoo> findZooByNameLike(String thename) {
-        return zoorepos.findByZooNameContainingIgnoreCase(thename);
+    public List<Zoo> findByNameContaining(String zooname) {
+        return zooRepository.findByZooNameContaining(zooname);
     }
 
     @Override
+    public Zoo findZooById(long id) {
+        return zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("not today"));
+    }
+
     @Transactional
-    public Zoo save(Zoo zoo, Telephone telephone) {
+    @Override
+    public void delete(long id) {
+        zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("stop it"));
+        zooRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public Zoo save(Zoo zoo) {
+        if (zooRepository.findByZooName(zoo.getZooname()) != null) {
+            throw new EntityNotFoundException(zoo.getZooname() + " already exists");
+        }
         Zoo newZoo = new Zoo();
         newZoo.setZooname(zoo.getZooname());
-        return zoorepos.save(newZoo);
+
+        for( Telephone t : zoo.getTelephones()) {
+            newZoo.getTelephones().add(new Telephone(t.getPhonetype(), t.getPhonenumber(), newZoo));
+        }
+
+        return zooRepository.save(newZoo);
     }
 
+    @Transactional
+    @Override
+    public Zoo update(Zoo zoo, long id) {
+        Zoo newZoo = findZooById(id);
+        if (zoo.getZooname() != null) {
+            newZoo.setZooname(zoo.getZooname());
+        }
 
+        if (zoo.getTelephones() != null) {
+            for (Telephone t : zoo.getTelephones()) {
+                newZoo.getTelephones().add(new Telephone(t.getPhonetype(), t.getPhonenumber(), newZoo));
+            }
+        }
+
+        return zooRepository.save(newZoo);
+    }
+
+    @Transactional
+    @Override
+    public void deleteZooAnimal(long zooid, long animalid) {
+        zooRepository.findById(zooid).orElseThrow(() -> new EntityNotFoundException("Zoo id " + zooid + " not found"));
+        animalRepository.findById(zooid).orElseThrow(() -> new EntityNotFoundException("Zoo id " + animalid + " not found"));
+
+        if (animalRepository.getBothZooAnimal(zooid, animalid).getCount() > 0) {
+            animalRepository.deleteZooAnimals(zooid, animalid);
+        } else throw new EntityNotFoundException("Zoo Animal Combo does not exist");
+
+    }
+
+    @Override
+    public void addZooAnimal(long zooid, long animalid) {
+        zooRepository.findById(zooid).orElseThrow(() -> new EntityNotFoundException("Zoo id " + zooid + " not found"));
+        animalRepository.findById(zooid).orElseThrow(() -> new EntityNotFoundException("Zoo id " + animalid + " not found"));
+
+        if (animalRepository.getBothZooAnimal(zooid, animalid).getCount() <= 0) {
+            animalRepository.insertZooAndAnimal(zooid, animalid);
+        } else throw new EntityNotFoundException("Zoo animal combo already exists");
+    }
+
+    @Override
+    public List<ZooCountTelephones> getCountZooTelephones() {
+        return zooRepository.getCountZooAndAnimals();
+    }
 }

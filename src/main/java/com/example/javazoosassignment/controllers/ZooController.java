@@ -20,49 +20,76 @@ public class ZooController {
     ZooService zooService;
 
     ///GET /zoos returns all zoos with their phone numbers and animals
-    @GetMapping(value = "/zoos",
-            produces = {"application/json"})
-    public ResponseEntity<?> getZoos()
-    {
-        List<Zoo> myUsers = zooService.findAllZoos();
-        return new ResponseEntity<>(myUsers,
-                HttpStatus.OK);
+    @GetMapping(value = "/zoos", produces = {"application/json"})
+    public ResponseEntity<?> listAllZoos() {
+        List<Zoo> myZoos = zooService.findAll();
+        return new ResponseEntity<>(myZoos, HttpStatus.OK);
     }
 
+
     //GET /zoo/{id} returns all information related to a zoo based on its id
-    @GetMapping(value = "/zoo/{id}", produces = {"application/json"})
-    public ResponseEntity<?> getZoosById(@PathVariable Long zooId){
-        Zoo zoo = zooService.findZooById(zooId);
-        return new ResponseEntity<>(zoo, HttpStatus.OK);
+    @GetMapping(value = "/zoo/{zooid}", produces = {"application/json"})
+    public ResponseEntity<?> getZooById(@PathVariable long zooid) {
+        Zoo myZoo = zooService.findZooById(zooid);
+        return new ResponseEntity<>(myZoo, HttpStatus.OK);
     }
 
     //GET /zoo/namelike/{name} returns a list of all the zoos with their information who have the given substring in their name
     @GetMapping(value = "/zoo/namelike/{name}", produces = {"application/json"})
-    public ResponseEntity<?> getZoosByName(@PathVariable String thename){
-       List<Zoo> zoo = zooService.findZooByNameLike(thename);
-        return new ResponseEntity<>(zoo, HttpStatus.OK);
+    public ResponseEntity<?> getZooByNamelike(@PathVariable String name) {
+        List<Zoo> myZoos = zooService.findByNameContaining(name);
+        return new ResponseEntity<>(myZoos, HttpStatus.OK);
     }
 
     // POST /zoo - add a zoo
     @PostMapping(value = "/zoo", consumes = {"application/json"})
-    public ResponseEntity<?> addNewZoo(@Valid @RequestBody Zoo newZoo){
+    public ResponseEntity<?> addNewZoo(@Valid @RequestBody Zoo newZoo) {
         newZoo = zooService.save(newZoo);
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newZooURI = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{zooid}")
-                .buildAndExpand(newZoo.getZooid()).toUri();
+                .buildAndExpand(newZoo.getZooid())
+                .toUri();
         responseHeaders.setLocation(newZooURI);
+
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
-    //GET /animals/count -  that returns a JSON object list listing the animals and a count of how many zoos where they can be found.
+   /* //GET http://localhost:2019/animals/count -  that returns a JSON object list listing the animals and a count of how many zoos where they can be found.
     @GetMapping(value = "/animals/count", produces = {"application/json"})
     public ResponseEntity<?> getZooAndAnimalNum(){
         return new ResponseEntity<>(zooService.getCountZooAnimals(), HttpStatus.OK);
+    }*/
+
+    //localhost:2019/zoos/zoo/{id} -- PUT
+    @PutMapping(value = "/zoo/{zooid}", consumes = {"application/json"})
+    public ResponseEntity<?> updateZoo(@RequestBody Zoo updateZoo, @PathVariable long zooid) {
+        zooService.update(updateZoo, zooid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //localhost:2019/zoos/zoo/{id} -- DELETE
+    @DeleteMapping(value = "/zoo/{zooid}")
+    public ResponseEntity<?> deleteZooById(@PathVariable long zooid) {
+        zooService.delete(zooid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //localhost:2019/zoos/zoo/{zooid}/animals/{animalid} -- DELETE
+    @DeleteMapping(value = "/zoo/{zooid}/animals/{animalid}")
+    public ResponseEntity<?> deleteZooAnimalByIds(@PathVariable long zooid, @PathVariable long animalid) {
+        zooService.deleteZooAnimal(zooid, animalid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //localhost:2019/zoos/zoo/{zooid}/animals/{animalid} -- POST
+    @PostMapping(value = "/zoo/{zooid}/animals/{animalid}")
+    public ResponseEntity postZooAnimalByIds(@PathVariable long zooid, @PathVariable long animalid) {
+        zooService.addZooAnimal(zooid, animalid);
+        return new ResponseEntity(HttpStatus.CREATED);
 
 
+    }
 }
 
 /*You are creating a Java Spring REST API server which stores data in an H2 database. The table layouts should be

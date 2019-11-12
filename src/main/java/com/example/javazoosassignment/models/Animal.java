@@ -15,11 +15,41 @@ public class Animal {
 
     private String animaltype;
 //////////foreign key////////////////////
-    @ManyToMany(mappedBy = "animals",
-            cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("animals")
-    private List<Animal> zoosArrayList = new ArrayList<>();
+@OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+@JsonIgnoreProperties(value = "animal", allowSetters = true)
+private List<ZooAnimals> zooanimals = new ArrayList<>();
+
 
     ////////////////////////////////////////////////////////////
+
+    public Animal() {}
+
+    public Animal(String animaltype) {
+        this.animaltype = animaltype;
+    }
+
+    public long getAnimalid() {
+        return animalid;
+    }
+
+    public void setAnimalid(long animalid) {
+        this.animalid = animalid;
+    }
+
+    public String getAnimaltype() {
+        return animaltype;
+    }
+
+    public void setAnimaltype(String animaltype) {
+        this.animaltype = animaltype;
+    }
+
+    public List<ZooAnimals> getZooanimals() {
+        return zooanimals;
+    }
+
+    public void setZooanimals(List<ZooAnimals> zooanimals) {
+        this.zooanimals = zooanimals;
+    }
 
 }
