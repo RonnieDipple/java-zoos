@@ -1,11 +1,8 @@
-package com.example.javazoosassignment.services;
+package com.rdipple.javazoosassignment.services;
 
-import com.example.javazoosassignment.models.Telephone;
-import com.example.javazoosassignment.models.Zoo;
-import com.example.javazoosassignment.views.ZooCountAnimals;
-import com.example.javazoosassignment.views.ZooCountTelephones;
+import com.rdipple.javazoosassignment.models.Zoo;
+import com.rdipple.javazoosassignment.views.ZooCountTelephones;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ZooService {

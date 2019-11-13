@@ -1,4 +1,4 @@
-package com.example.javazoosassignment.models;
+package com.rdipple.javazoosassignment.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "zoos")
-public class Zoo {
+public class Zoo extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,19 +34,19 @@ public class Zoo {
         this.zooanimals = zooanimals;
     }
 
-    public long getzooid() {
+    public long getZooid() {
         return zooid;
     }
 
-    public void setzooid(long zooid) {
+    public void setZooid(long zooid) {
         this.zooid = zooid;
     }
 
-    public String getzooname() {
+    public String getZooname() {
         return zooname;
     }
 
-    public void setzooname(String zooname) {
+    public void setZooname(String zooname) {
         this.zooname = zooname;
     }
 

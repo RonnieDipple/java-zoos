@@ -1,15 +1,13 @@
-package com.example.javazoosassignment.models;
+package com.rdipple.javazoosassignment.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "telephones", uniqueConstraints = {@UniqueConstraint(columnNames = {"zooid", "phonenumber"})})
-public class Telephone {
+@Table(name = "telephones")
+public class Telephone extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long phoneid;

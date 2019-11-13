@@ -1,4 +1,4 @@
-package com.example.javazoosassignment.views;
+package com.rdipple.javazoosassignment.views;
 
 public interface ZooCountTelephones {
 

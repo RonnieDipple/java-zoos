@@ -1,10 +1,10 @@
-package com.example.javazoosassignment.services;
+package com.rdipple.javazoosassignment.services;
 
-import com.example.javazoosassignment.models.Telephone;
-import com.example.javazoosassignment.models.Zoo;
-import com.example.javazoosassignment.repository.AnimalRepository;
-import com.example.javazoosassignment.repository.ZooRepository;
-import com.example.javazoosassignment.views.ZooCountTelephones;
+import com.rdipple.javazoosassignment.models.Telephone;
+import com.rdipple.javazoosassignment.models.Zoo;
+import com.rdipple.javazoosassignment.repositories.AnimalRepository;
+import com.rdipple.javazoosassignment.repositories.ZooRepository;
+import com.rdipple.javazoosassignment.views.ZooCountTelephones;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +40,7 @@ public class ZooServiceImpl implements ZooService {
 
     @Override
     public Zoo findZooById(long id) {
-        return zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("not found"));
+        return zooRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("findbyid fail"));
     }
 
     @Transactional
@@ -53,11 +53,11 @@ public class ZooServiceImpl implements ZooService {
     @Transactional
     @Override
     public Zoo save(Zoo zoo) {
-        if (zooRepository.findByzooname(zoo.getzooname()) != null) {
-            throw new EntityNotFoundException(zoo.getzooname() + " already exists");
+        if (zooRepository.findByzooname(zoo.getZooname()) != null) {
+            throw new EntityNotFoundException(zoo.getZooname() + "  exists");
         }
         Zoo newZoo = new Zoo();
-        newZoo.setzooname(zoo.getzooname());
+        newZoo.setZooname(zoo.getZooname());
 
         for( Telephone t : zoo.getTelephones()) {
             newZoo.getTelephones().add(new Telephone(t.getPhonetype(), t.getPhonenumber(), newZoo));
@@ -70,8 +70,8 @@ public class ZooServiceImpl implements ZooService {
     @Override
     public Zoo update(Zoo zoo, long id) {
         Zoo newZoo = findZooById(id);
-        if (zoo.getzooname() != null) {
-            newZoo.setzooname(zoo.getzooname());
+        if (zoo.getZooname() != null) {
+            newZoo.setZooname(zoo.getZooname());
         }
 
         if (zoo.getTelephones() != null) {
@@ -91,7 +91,7 @@ public class ZooServiceImpl implements ZooService {
 
         if (animalRepository.getBothZooAnimal(zooid, animalid).getCount() > 0) {
             animalRepository.deleteZooAnimals(zooid, animalid);
-        } else throw new EntityNotFoundException("Zoo and Animal does not exist");
+        } else throw new EntityNotFoundException("Zoo And Animal does not exist");
 
     }
 

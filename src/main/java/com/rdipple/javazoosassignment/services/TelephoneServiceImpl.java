@@ -1,7 +1,7 @@
-package com.example.javazoosassignment.services;
+package com.rdipple.javazoosassignment.services;
 
-import com.example.javazoosassignment.models.Telephone;
-import com.example.javazoosassignment.repository.TelephoneRepository;
+import com.rdipple.javazoosassignment.models.Telephone;
+import com.rdipple.javazoosassignment.repositories.TelephoneRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +28,11 @@ public class TelephoneServiceImpl implements TelephoneService {
 
     @Override
     public Telephone findTelephoneById(long id) {
-        return telephoneRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no findTelephoneById"));
+        return telephoneRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("no"));
     }
 
     @Override
-    public List<Telephone> findbyzooid(long id) {
+    public List<Telephone> findByZooId(long id) {
         return telephoneRepository.findAllByZooZooid(id);
     }
 
@@ -41,7 +41,7 @@ public class TelephoneServiceImpl implements TelephoneService {
         if (telephoneRepository.findById(id).isPresent()) {
             telephoneRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("no delete");
+            throw new EntityNotFoundException("telephone delete error");
         }
     }
 
@@ -52,7 +52,7 @@ public class TelephoneServiceImpl implements TelephoneService {
             telephone.setPhonenumber(phonenumber);
             return telephoneRepository.save(telephone);
         } else {
-            throw new EntityNotFoundException("No update");
+            throw new EntityNotFoundException("telephone update error");
         }
     }
 

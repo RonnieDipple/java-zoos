@@ -1,4 +1,4 @@
-package com.example.javazoosassignment.models;
+package com.rdipple.javazoosassignment.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "zooanimals")
+@Table(name = "zooanimals", uniqueConstraints = {@UniqueConstraint(columnNames = {"zooid", "animalid"})})
 public class ZooAnimals extends Auditable implements Serializable {
 
     @Id
@@ -60,4 +60,3 @@ public class ZooAnimals extends Auditable implements Serializable {
         return Objects.hash(getZoo(), getAnimal());
     }
 }
-

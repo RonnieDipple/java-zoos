@@ -1,8 +1,8 @@
-package com.example.javazoosassignment.controllers;
+package com.rdipple.javazoosassignment.controllers;
 
-import com.example.javazoosassignment.models.Zoo;
-import com.example.javazoosassignment.services.ZooService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.rdipple.javazoosassignment.models.Zoo;
+import com.rdipple.javazoosassignment.services.ZooService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/zoos")
 public class ZooController {
-    @Autowired
+
     ZooService zooService;
 
     ///GET /zoos returns all zoos with their phone numbers and animals
@@ -42,13 +42,12 @@ public class ZooController {
     }
 
     // POST /zoo - add a zoo
-    @PostMapping(value = "/zoo", consumes = {"application/json"})
     public ResponseEntity<?> addNewZoo(@Valid @RequestBody Zoo newZoo) {
         newZoo = zooService.save(newZoo);
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newZooURI = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{zooid}")
-                .buildAndExpand(newZoo.getzooid())
+                .buildAndExpand(newZoo.getZooid())
                 .toUri();
         responseHeaders.setLocation(newZooURI);
 
@@ -87,8 +86,10 @@ public class ZooController {
     public ResponseEntity postZooAnimalByIds(@PathVariable long zooid, @PathVariable long animalid) {
         zooService.addZooAnimal(zooid, animalid);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
 
-
+    public ZooController(ZooService zooService) {
+        this.zooService = zooService;
     }
 }
 

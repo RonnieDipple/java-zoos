@@ -1,4 +1,4 @@
-package com.example.javazoosassignment.models;
+package com.rdipple.javazoosassignment.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -8,16 +8,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "animals")
-public class Animal {
+public class Animal extends Auditable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long animalid;
 
     private String animaltype;
-//////////foreign key////////////////////
-@OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
-@JsonIgnoreProperties(value = "animal", allowSetters = true)
-private List<ZooAnimals> zooanimals = new ArrayList<>();
+    //////////foreign key////////////////////
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "animal", allowSetters = true)
+    private List<ZooAnimals> zooanimals = new ArrayList<>();
 
 
     ////////////////////////////////////////////////////////////
@@ -51,5 +51,4 @@ private List<ZooAnimals> zooanimals = new ArrayList<>();
     public void setZooanimals(List<ZooAnimals> zooanimals) {
         this.zooanimals = zooanimals;
     }
-
 }

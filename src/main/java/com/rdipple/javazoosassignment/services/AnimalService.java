@@ -1,13 +1,12 @@
-package com.example.javazoosassignment.services;
+package com.rdipple.javazoosassignment.services;
 
-import com.example.javazoosassignment.models.Animal;
-import com.example.javazoosassignment.views.ZooCountAnimals;
-import org.springframework.stereotype.Service;
+import com.rdipple.javazoosassignment.models.Animal;
+import com.rdipple.javazoosassignment.views.ZooCountAnimals;
 
 import java.util.List;
 
-@Service(value = "animalService")
 public interface AnimalService {
+
     List<Animal> findAll();
 
     Animal findAnimalById(long id);

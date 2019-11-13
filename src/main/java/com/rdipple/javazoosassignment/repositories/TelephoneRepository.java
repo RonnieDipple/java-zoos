@@ -1,6 +1,6 @@
-package com.example.javazoosassignment.repository;
+package com.rdipple.javazoosassignment.repositories;
 
-import com.example.javazoosassignment.models.Telephone;
+import com.rdipple.javazoosassignment.models.Telephone;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

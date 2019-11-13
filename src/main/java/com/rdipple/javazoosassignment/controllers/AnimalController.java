@@ -1,6 +1,6 @@
-package com.example.javazoosassignment.controllers;
+package com.rdipple.javazoosassignment.controllers;
+import com.rdipple.javazoosassignment.services.AnimalService;
 
-import com.example.javazoosassignment.services.AnimalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

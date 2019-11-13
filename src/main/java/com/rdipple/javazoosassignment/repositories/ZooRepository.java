@@ -1,12 +1,10 @@
-package com.example.javazoosassignment.repository;
+package com.rdipple.javazoosassignment.repositories;
 
-import com.example.javazoosassignment.models.Zoo;
-import com.example.javazoosassignment.views.ZooCountAnimals;
-import com.example.javazoosassignment.views.ZooCountTelephones;
+import com.rdipple.javazoosassignment.models.Zoo;
+import com.rdipple.javazoosassignment.views.ZooCountTelephones;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ZooRepository extends CrudRepository<Zoo, Long> {
@@ -28,3 +26,4 @@ public interface ZooRepository extends CrudRepository<Zoo, Long> {
 
     Zoo findByzooname(String zooname);
 }
+
